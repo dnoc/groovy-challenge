@@ -40,5 +40,4 @@ Thumbs.db
 
 # Idea #
 .idea/
-*.iml
 target/
