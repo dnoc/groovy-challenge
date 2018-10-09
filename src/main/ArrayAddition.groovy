@@ -10,10 +10,10 @@ class ArrayAddition {
         int length = array.length
         if (length < 2) return false
 
-        int[] sorted = Arrays.sort(array)
-        int largestVal = sorted[length]
+        Arrays.sort(array)
+        int largestVal = array[length-1]
 
-        return findSum(Arrays.copyOfRange(sorted, 0, length-1), length-1, largestVal)
+        return findSum(Arrays.copyOfRange(array, 0, length-1), length-1, largestVal)
     }
 
     private static boolean findSum(int[] array, int length, int sum) {
@@ -23,10 +23,6 @@ class ArrayAddition {
 
         if (length == 0 && sum != 0) {
             return false
-        }
-
-        if (array[length-1] > sum) {
-            return findSum(array, length-1, sum)
         }
 
         return findSum(array, length-1, sum) || findSum(array, length-1, sum-array[length-1])
