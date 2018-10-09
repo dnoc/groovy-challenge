@@ -28,7 +28,7 @@ class ArrayAdditionSpec extends Specification {
     @Unroll
     def testValidInputs(int[] array, boolean addable) {
         expect:
-        addable == ArrayAddition.isAddable(array)
+        ArrayAddition.isAddable(array) == addable
 
         where:
         array | addable
