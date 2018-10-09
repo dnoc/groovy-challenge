@@ -34,4 +34,32 @@ class DiceRollerSpec extends Specification {
         "1d12"  | 1             | 12
         "1d20"  | 1             | 20
     }
+
+    @Unroll
+    def testValidInputWithMock(String input, int expected) {
+        setup:
+        GroovyMock(DiceRoller.Die)
+        // TODO this mock is failing, may not need cglib
+        int numberOfSides
+        DiceRoller.Die.roll(numberOfSides) >> 2
+        int result = DiceRoller.roll(input)
+
+        expect:
+        result == expected
+
+        where:
+        input   | expected
+        "0d4"   | 0
+        "1d4"   | 2
+        "2d4"   | 4
+        "4d4"   | 8
+        "0d6"   | 0
+        "1d6"   | 2
+        "9d6"   | 18
+        "2d8"   | 4
+        "100d8" | 200
+        "10d10" | 20
+        "5d12"  | 10
+        "6d20"  | 12
+    }
 }
