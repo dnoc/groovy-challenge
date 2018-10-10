@@ -11,23 +11,49 @@ class DiceRoller {
      *      Sum of roll results as an int
      */
     static int roll(String inputString) {
-        String[] input = inputString.split("d")
-        int numberOfDie = Integer.valueOf(input[0])
-        int numberOfSides = Integer.valueOf(input[1])
+        List<Die> dice = getDice(inputString)
 
         int sum = 0
-        numberOfDie.times {
-            sum += Die.roll(numberOfSides)
+        for (Die die : dice) {
+            sum += die.roll()
         }
 
         return sum
     }
 
-    private static class Die {
-        static int roll(int numberOfSides) {
-            Random random = new Random()
-            return random.nextInt(numberOfSides) + 1
+    private static List<Die> getDice(String inputString) {
+        try {
+            String[] input = inputString.split("d")
+            int numberOfDie = Integer.valueOf(input[0])
+            int numberOfSides = Integer.valueOf(input[1])
+
+            List<Die> dice = new ArrayList<>()
+            numberOfDie.times {
+                dice << new DieImpl(numberOfSides)
+            }
+            return dice
+        } catch (Exception e) {
+            return new ArrayList<Die>()
         }
+    }
+}
+
+interface Die {
+    int roll()
+}
+
+class DieImpl implements Die {
+    int sides
+    Random random
+
+    DieImpl(int numberOfSides) {
+        sides = numberOfSides
+        random = new Random()
+    }
+
+    @Override
+    int roll() {
+        return random.nextInt(sides) + 1
     }
 }
 

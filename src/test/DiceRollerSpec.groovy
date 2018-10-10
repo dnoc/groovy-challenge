@@ -11,6 +11,18 @@ class DiceRollerSpec extends Specification {
         result >= 0
     }
 
+    def "it returns 0 on invalid input"(String input, int expected) {
+        expect:
+        DiceRoller.roll(input) == expected
+
+        where:
+        input       | expected
+        "jkldsajf"  | 0
+        ""          | 0
+        null        | 0
+        "1234"      | 0
+    }
+
     @Unroll
     def testValidInputRange(String input, int lowerRange, int upperRange) {
         setup:
@@ -38,14 +50,12 @@ class DiceRollerSpec extends Specification {
     @Unroll
     def testValidInputWithMock(String input, int expected) {
         setup:
-        GroovyMock(DiceRoller.Die)
-        // TODO this mock is failing, may not need cglib
-        int numberOfSides
-        DiceRoller.Die.roll(numberOfSides) >> 2
-        int result = DiceRoller.roll(input)
+        // TODO just doesn't get hit at all
+        def die = Mock(Die)
+        die.roll() >> 2
 
         expect:
-        result == expected
+        DiceRoller.roll(input) == expected
 
         where:
         input   | expected
@@ -61,5 +71,33 @@ class DiceRollerSpec extends Specification {
         "10d10" | 20
         "5d12"  | 10
         "6d20"  | 12
+    }
+
+    @Unroll
+    def testValidInputNumberOfRolls(String input, int rolls) {
+        setup:
+        // TODO just doesn't get hit at all
+        def die = Mock(Die)
+
+        when:
+        DiceRoller.roll(input)
+
+        then:
+        rolls * die.roll()
+
+        where:
+        input   | rolls
+        "0d4"   | 0
+        "1d4"   | 1
+        "2d4"   | 2
+        "4d4"   | 4
+        "0d6"   | 0
+        "1d6"   | 1
+        "9d6"   | 9
+        "2d8"   | 2
+        "100d8" | 100
+        "10d10" | 10
+        "5d12"  | 5
+        "6d20"  | 6
     }
 }
