@@ -16,5 +16,6 @@ class GreatestCommonFactorSpec extends Specification {
         252     | 105   | 21
         13000   | 52    | 52
         1       | 1     | 1
+        0       | 100   | 0
     }
 }
