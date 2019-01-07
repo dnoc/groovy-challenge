@@ -1,6 +1,7 @@
 class CheckDigit {
     /**
      * Prompt: https://www.reddit.com/r/dailyprogrammer/comments/a72sdj/20181217_challenge_370_easy_upc_check_digits/
+     * Input is 11-digit numeric string, e.g. 03600029145
      */
     fun compute(upc : String) : Int {
         val odds = 3 * sumOdds(upc)
@@ -13,10 +14,23 @@ class CheckDigit {
     }
 
     private fun sumOdds(upc : String) : Int {
-        return 0
+        val first = Character.getNumericValue(upc[0])
+        val third = Character.getNumericValue(upc[2])
+        val fifth = Character.getNumericValue(upc[4])
+        val seventh = Character.getNumericValue(upc[6])
+        val ninth = Character.getNumericValue(upc[8])
+        val eleventh = Character.getNumericValue(upc[10])
+
+        return first + third + fifth + seventh + ninth + eleventh
     }
 
     private fun sumEvens(upc : String) : Int {
-        return 0
+        val second = Character.getNumericValue(upc[1])
+        val fourth = Character.getNumericValue(upc[3])
+        val sixth = Character.getNumericValue(upc[5])
+        val eighth = Character.getNumericValue(upc[7])
+        val tenth = Character.getNumericValue(upc[9])
+
+        return second + fourth + sixth + eighth + tenth
     }
 }
