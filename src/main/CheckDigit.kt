@@ -3,7 +3,8 @@ class CheckDigit {
      * Prompt: https://www.reddit.com/r/dailyprogrammer/comments/a72sdj/20181217_challenge_370_easy_upc_check_digits/
      * Input is 11-digit numeric string, e.g. 03600029145
      */
-    fun compute(upc : String) : Int {
+    fun compute(input : String?) : Int {
+        val upc = validate(input)
         val odds = 3 * sumOdds(upc)
         val evens = sumEvens(upc)
         val m = (odds + evens) % 10
@@ -11,6 +12,24 @@ class CheckDigit {
             0 -> m
             else -> 10 - m
         }
+    }
+
+    private fun validate(input : String?) : String {
+        return when {
+            input == null -> "00000000000"
+            input.length >= 11 -> input
+            else -> fillMissingDigits(input)
+        }
+    }
+
+    private fun fillMissingDigits(input : String) : String {
+        val missing = 11 - input.length
+        var output = input
+        for (i in 1..missing) {
+            output = "0$output"
+        }
+
+        return output
     }
 
     private fun sumOdds(upc : String) : Int {
