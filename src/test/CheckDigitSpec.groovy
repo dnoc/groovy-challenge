@@ -5,6 +5,6 @@ class CheckDigitSpec extends Specification {
 
     def "it runs a test"() {
         expect:
-        checkDigit.compute() == 0
+        checkDigit.compute("") == 0
     }
 }
